@@ -1,7 +1,7 @@
 # Kubernetes The Harder Way
 The original tutorial walks you through setting up [Kubernetes the hard way](https://github.com/kelseyhightower/kubernetes-the-hard-way).  
 
-I want some extra spice by using Gentoo as the main distro throughout the guide, the "harder" way. Work in progress.
+I want some extra spice by using Gentoo as the main distro throughout the guide, thus the "harder" way. Work in progress.
 
 
 ## Cluster Details
