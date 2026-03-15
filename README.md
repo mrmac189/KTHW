@@ -1,11 +1,10 @@
-# Kubernetes The Hard Way
-
-The original tutorial walks you through setting up Kubernetes the hard way: https://github.com/kelseyhightower/kubernetes-the-hard-way 
+# Kubernetes The Harder Way
+The original tutorial walks you through setting up Kubernetes the hard way: https://github.com/kelseyhightower/kubernetes-the-hard-way. 
+I want some extra spice by using Gentoo as the main distro throughout the guide. Work in progress.
 
 
 ## Cluster Details
-Work in progress. 
-Kubernetes The Harder Way guides you through bootstrapping a basic Kubernetes cluster with all control plane components running on a single node and two worker nodes. I want some extra spice by using Gentoo as the main distro throughout the guide.
+Kubernetes The Harder Way guides you through bootstrapping a basic Kubernetes cluster with all control plane components running on a single node and two worker nodes.
 
 Component versions:
 
