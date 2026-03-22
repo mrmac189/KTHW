@@ -1,26 +1,30 @@
 # Set Up The Jumpbox
 
-In this lab you will set up one of the four machines to be a `jumpbox`. This machine will be used to run commands throughout this tutorial. While a dedicated machine is being used to ensure consistency, these commands can also be run from just about any machine including your personal workstation running macOS or Linux.
+In this lab we will set up one of the four machines to be a `jumpbox`. This machine will be used to run commands throughout this tutorial.
 
 Think of the `jumpbox` as the administration machine that you will use as a home base when setting up your Kubernetes cluster from the ground up. Before we get started we need to install a few command line utilities and clone the Kubernetes The Hard Way git repository, which contains some additional configuration files that will be used to configure various Kubernetes components throughout this tutorial.
 
 Log in to the `jumpbox`:
 
 ```bash
-ssh root@jumpbox
+ssh cowboy@jumpbox
 ```
 
-All commands will be run as the `root` user. This is being done for the sake of convenience, and will help reduce the number of commands required to set everything up.
+All commands will be run as the `cowboy` user, which is part of wheel group and thus has the superuser rights. 
 
 ### Install Command Line Utilities
 
-Now that you are logged into the `jumpbox` machine as the `root` user, you will install the command line utilities that will be used to preform various tasks throughout the tutorial.
+Now that you are logged into the `jumpbox` machine as the `cowboy` user, you will install the command line utilities that will be used to preform various tasks throughout the tutorial.
 
+### Install Command Line Utilities
 ```bash
-{
-  apt-get update
-  apt-get -y install wget curl vim openssl git
-}
+sudo emerge --sync
+sudo emerge --ask \
+  net-misc/wget \
+  net-misc/curl \
+  app-editors/vim \
+  dev-libs/openssl \
+  dev-vcs/git
 ```
 
 ### Sync GitHub Repository
@@ -28,47 +32,26 @@ Now that you are logged into the `jumpbox` machine as the `root` user, you will 
 Now it's time to download a copy of this tutorial which contains the configuration files and templates that will be used build your Kubernetes cluster from the ground up. Clone the Kubernetes The Hard Way git repository using the `git` command:
 
 ```bash
-git clone --depth 1 \
-  https://github.com/kelseyhightower/kubernetes-the-hard-way.git
+git clone https://github.com/mrmac189/KTHW.git
 ```
-
-Change into the `kubernetes-the-hard-way` directory:
 
 ```bash
-cd kubernetes-the-hard-way
-```
-
-This will be the working directory for the rest of the tutorial. If you ever get lost run the `pwd` command to verify you are in the right directory when running commands on the `jumpbox`:
-
-```bash
-pwd
-```
-
-```text
-/root/kubernetes-the-hard-way
+cd KTHW
 ```
 
 ### Download Binaries
 
-In this section you will download the binaries for the various Kubernetes components. The binaries will be stored in the `downloads` directory on the `jumpbox`, which will reduce the amount of internet bandwidth required to complete this tutorial as we avoid downloading the binaries multiple times for each machine in our Kubernetes cluster.
-
-The binaries that will be downloaded are listed in either the `downloads-amd64.txt` or `downloads-arm64.txt` file depending on your hardware architecture, which you can review using the `cat` command:
-
-```bash
-cat downloads-$(dpkg --print-architecture).txt
-```
-
-Download the binaries into a directory called `downloads` using the `wget` command:
+In this section we will download the binaries for the Kubernetes components. The binaries will be stored in the `downloads` directory on the `jumpbox`, which will reduce the amount of internet bandwidth required as we avoid downloading the binaries multiple times for each machine in our Kubernetes cluster.
 
 ```bash
 wget -q --show-progress \
   --https-only \
   --timestamping \
   -P downloads \
-  -i downloads-$(dpkg --print-architecture).txt
+  -i downloads-amd64.txt
 ```
 
-Depending on your internet connection speed it may take a while to download over `500` megabytes of binaries, and once the download is complete, you can list them using the `ls` command:
+Once the download is complete, we can list them using the `ls` command:
 
 ```bash
 ls -oh downloads
@@ -78,7 +61,7 @@ Extract the component binaries from the release archives and organize them under
 
 ```bash
 {
-  ARCH=$(dpkg --print-architecture)
+  ARCH=amd64
   mkdir -p downloads/{client,cni-plugins,controller,worker}
   tar -xvf downloads/crictl-v1.32.0-linux-${ARCH}.tar.gz \
     -C downloads/worker/

@@ -133,6 +133,7 @@ resource "libvirt_cloudinit_disk" "seed" {
         groups: [wheel]
         sudo: ALL=(ALL) NOPASSWD:ALL
         shell: /bin/bash
+        lock_passwd: false
         ssh_authorized_keys:
           - ${var.ssh_public_key}
         hashed_passwd: ${var.cowboy_password_hash}

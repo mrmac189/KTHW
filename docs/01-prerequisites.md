@@ -66,8 +66,28 @@ After the correct functionality of VM is determined, the test VM can be deleted 
 
 - libvirtd daemon is the only method supported by dmacvicar/terraform-provider-libvirt, new modular architecture seems to not be supported (I needed to disable virt*d services and enable libvirtd)
 
+After setting TFVars (rename the example to terraform.tfvars):
 
+```sh
+terraform apply
+```
 
+```sh
+virsh list --all
+```
+
+4 VMs should be there. To look IPs: 
+
+```sh
+virsh domifaddr jumpbox
+virsh domifaddr server
+virsh domifaddr node-0
+virsh domifaddr node-1
+```
+
+```sh
+ssh cowboy@jumpbox_ip
+```
 
 Once all four machines are provisioned, verify the OS requirements by viewing the `/etc/os-release` file:
 

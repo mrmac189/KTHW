@@ -1,20 +1,18 @@
 # Provisioning a CA and Generating TLS Certificates
 
-In this lab you will provision a [PKI Infrastructure](https://en.wikipedia.org/wiki/Public_key_infrastructure) using openssl to bootstrap a Certificate Authority, and generate TLS certificates for the following components: kube-apiserver, kube-controller-manager, kube-scheduler, kubelet, and kube-proxy. The commands in this section should be run from the `jumpbox`.
+In this lab we will provision a [PKI Infrastructure](https://en.wikipedia.org/wiki/Public_key_infrastructure) using openssl to bootstrap a Certificate Authority, and generate TLS certificates for the following components: kube-apiserver, kube-controller-manager, kube-scheduler, kubelet, and kube-proxy. The commands in this section should be run from the `jumpbox`.
 
 ## Certificate Authority
 
-In this section you will provision a Certificate Authority that can be used to generate additional TLS certificates for the other Kubernetes components. Setting up CA and generating certificates using `openssl` can be time-consuming, especially when doing it for the first time. To streamline this lab, I've included an openssl configuration file `ca.conf`, which defines all the details needed to generate certificates for each Kubernetes component.
-
-Take a moment to review the `ca.conf` configuration file:
+In this section we will provision a Certificate Authority that can be used to generate additional TLS certificates for the other Kubernetes components. Setting up CA and generating certificates using `openssl` can be time-consuming, especially when doing it for the first time. To streamline this lab, the autor of the original repo has included an openssl configuration file `ca.conf`, which defines all the details needed to generate certificates for each Kubernetes component and was a bit changed to fit my particular case.
 
 ```bash
 cat ca.conf
 ```
 
-You don't need to understand everything in the `ca.conf` file to complete this tutorial, but you should consider it a starting point for learning `openssl` and the configuration that goes into managing certificates at a high level.
+`ca.conf` should be considered as a starting point for learning `openssl` and the configuration that goes into managing certificates at a high level.
 
-Every certificate authority starts with a private key and root certificate. In this section we are going to create a self-signed certificate authority, and while that's all we need for this tutorial, this shouldn't be considered something you would do in a real-world production environment.
+Every certificate authority starts with a private key and root certificate. In this section we are going to create a self-signed certificate authority, and while that's all we need for this tutorial, this shouldn't be considered something we would do in a real-world production environment.
 
 Generate the CA configuration file, certificate, and private key:
 
@@ -39,8 +37,14 @@ ca.crt ca.key
 In this section you will generate client and server certificates for each Kubernetes component and a client certificate for the Kubernetes `admin` user.
 
 Generate the certificates and private keys:
+```bash
+mkdir certs
+mv ca.crt ca.key ca.config certs
+cp machines.txt certs
+```
 
 ```bash
+cd certs
 certs=(
   "admin" "node-0" "node-1"
   "kube-proxy" "kube-scheduler"
@@ -81,15 +85,14 @@ Copy the appropriate certificates and private keys to the `node-0` and `node-1` 
 
 ```bash
 for host in node-0 node-1; do
-  ssh root@${host} mkdir /var/lib/kubelet/
-
-  scp ca.crt root@${host}:/var/lib/kubelet/
-
+  ssh cowboy@${host} sudo mkdir /var/lib/kubelet/
+  ssh cowboy@${host} sudo chown cowboy /var/lib/kubelet/
+  
+  scp ca.crt cowboy@${host}:/var/lib/kubelet/
   scp ${host}.crt \
-    root@${host}:/var/lib/kubelet/kubelet.crt
-
+    cowboy@${host}:/var/lib/kubelet/kubelet.crt
   scp ${host}.key \
-    root@${host}:/var/lib/kubelet/kubelet.key
+    cowboy@${host}:/var/lib/kubelet/kubelet.key
 done
 ```
 
@@ -100,7 +103,7 @@ scp \
   ca.key ca.crt \
   kube-api-server.key kube-api-server.crt \
   service-accounts.key service-accounts.crt \
-  root@server:~/
+  cowboy@server:~/
 ```
 
 > The `kube-proxy`, `kube-controller-manager`, `kube-scheduler`, and `kubelet` client certificates will be used to generate client authentication configuration files in the next lab.

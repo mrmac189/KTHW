@@ -1,11 +1,11 @@
-# Kubernetes The Harder Way
+# Kubernetes a bit Harder Way
 The original tutorial walks you through setting up [Kubernetes the hard way](https://github.com/kelseyhightower/kubernetes-the-hard-way).  
 
-I want some extra spice by using Gentoo as the main distro throughout the guide, thus the "harder" way. Work in progress.
+This repo is my personal journey through KTHW, where I wanted some extra spice by using Gentoo as the main distro throughout the guide, thus the "a bit harder" way. Work in progress.
 
 
 ## Cluster Details
-Kubernetes The Harder Way guides you through bootstrapping a basic Kubernetes cluster with all control plane components running on a single node and two worker nodes.
+Kubernetes a bit Harder Way guides you through bootstrapping a basic Kubernetes cluster with all control plane components running on a single node and two worker nodes.
 
 Component versions:
 
@@ -18,10 +18,10 @@ Component versions:
 
 This tutorial requires four AMD64 based virtual or physical machines connected to the same network.
 
-- [ ] [Prerequisites](docs/01-prerequisites.md)
-- [ ] [Setting up the Jumpbox](docs/02-jumpbox.md)
-- [ ] [Provisioning Compute Resources](docs/03-compute-resources.md)
-- [ ] [Provisioning the CA and Generating TLS Certificates](docs/04-certificate-authority.md)
+- [x] [Prerequisites](docs/01-prerequisites.md)
+- [x] [Setting up the Jumpbox](docs/02-jumpbox.md)
+- [x] [Provisioning Compute Resources](docs/03-compute-resources.md)
+- [x] [Provisioning the CA and Generating TLS Certificates](docs/04-certificate-authority.md)
 - [ ] [Generating Kubernetes Configuration Files for Authentication](docs/05-kubernetes-configuration-files.md)
 - [ ] [Generating the Data Encryption Config and Key](docs/06-data-encryption-keys.md)
 - [ ] [Bootstrapping the etcd Cluster](docs/07-bootstrapping-etcd.md)
