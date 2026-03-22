@@ -1,4 +1,4 @@
-# Kubernetes a bit Harder Way
+# Kubernetes a bit more harder Way
 The original tutorial walks you through setting up [Kubernetes the hard way](https://github.com/kelseyhightower/kubernetes-the-hard-way).  
 
 This repo is my personal journey through KTHW, where I wanted some extra spice by using Gentoo as the main distro throughout the guide, thus the "a bit harder" way. Work in progress.
