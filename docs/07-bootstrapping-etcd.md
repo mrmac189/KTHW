@@ -1,6 +1,6 @@
 # Bootstrapping the etcd Cluster
 
-Kubernetes components are stateless and store cluster state in [etcd](https://github.com/etcd-io/etcd). In this lab you will bootstrap a single node etcd cluster.
+Kubernetes components are stateless and store cluster state in [etcd](https://github.com/etcd-io/etcd). In this lab we will bootstrap a single node etcd cluster.
 
 ## Prerequisites
 
@@ -11,13 +11,13 @@ scp \
   downloads/controller/etcd \
   downloads/client/etcdctl \
   units/etcd.service \
-  root@server:~/
+  cowboy@server:~/
 ```
 
 The commands in this lab must be run on the `server` machine. Login to the `server` machine using the `ssh` command. Example:
 
 ```bash
-ssh root@server
+ssh cowboy@server
 ```
 
 ## Bootstrapping an etcd Cluster
@@ -56,8 +56,7 @@ mv etcd.service /etc/systemd/system/
 ```bash
 {
   systemctl daemon-reload
-  systemctl enable etcd
-  systemctl start etcd
+  systemctl enable --now etcd
 }
 ```
 

@@ -16,10 +16,10 @@ Generate a kubeconfig file for the `node-0` and `node-1` worker nodes:
 
 ```bash
 for host in node-0 node-1; do
-  kubectl config set-cluster kubernetes-the-hard-way \
+  kubectl config set-cluster KTHW \
     --certificate-authority=ca.crt \
     --embed-certs=true \
-    --server=https://server.kubernetes.local:6443 \
+    --server=https://server.kthw.local:6443 \
     --kubeconfig=${host}.kubeconfig
 
   kubectl config set-credentials system:node:${host} \
@@ -29,7 +29,7 @@ for host in node-0 node-1; do
     --kubeconfig=${host}.kubeconfig
 
   kubectl config set-context default \
-    --cluster=kubernetes-the-hard-way \
+    --cluster=KTHW \
     --user=system:node:${host} \
     --kubeconfig=${host}.kubeconfig
 
@@ -51,10 +51,10 @@ Generate a kubeconfig file for the `kube-proxy` service:
 
 ```bash
 {
-  kubectl config set-cluster kubernetes-the-hard-way \
+  kubectl config set-cluster KTHW \
     --certificate-authority=ca.crt \
     --embed-certs=true \
-    --server=https://server.kubernetes.local:6443 \
+    --server=https://server.kthw.local:6443 \
     --kubeconfig=kube-proxy.kubeconfig
 
   kubectl config set-credentials system:kube-proxy \
@@ -64,7 +64,7 @@ Generate a kubeconfig file for the `kube-proxy` service:
     --kubeconfig=kube-proxy.kubeconfig
 
   kubectl config set-context default \
-    --cluster=kubernetes-the-hard-way \
+    --cluster=KTHW \
     --user=system:kube-proxy \
     --kubeconfig=kube-proxy.kubeconfig
 
@@ -85,10 +85,10 @@ Generate a kubeconfig file for the `kube-controller-manager` service:
 
 ```bash
 {
-  kubectl config set-cluster kubernetes-the-hard-way \
+  kubectl config set-cluster KTHW \
     --certificate-authority=ca.crt \
     --embed-certs=true \
-    --server=https://server.kubernetes.local:6443 \
+    --server=https://server.kthw.local:6443 \
     --kubeconfig=kube-controller-manager.kubeconfig
 
   kubectl config set-credentials system:kube-controller-manager \
@@ -98,7 +98,7 @@ Generate a kubeconfig file for the `kube-controller-manager` service:
     --kubeconfig=kube-controller-manager.kubeconfig
 
   kubectl config set-context default \
-    --cluster=kubernetes-the-hard-way \
+    --cluster=KTHW \
     --user=system:kube-controller-manager \
     --kubeconfig=kube-controller-manager.kubeconfig
 
@@ -120,10 +120,10 @@ Generate a kubeconfig file for the `kube-scheduler` service:
 
 ```bash
 {
-  kubectl config set-cluster kubernetes-the-hard-way \
+  kubectl config set-cluster KTHW \
     --certificate-authority=ca.crt \
     --embed-certs=true \
-    --server=https://server.kubernetes.local:6443 \
+    --server=https://server.kthw.local:6443 \
     --kubeconfig=kube-scheduler.kubeconfig
 
   kubectl config set-credentials system:kube-scheduler \
@@ -133,7 +133,7 @@ Generate a kubeconfig file for the `kube-scheduler` service:
     --kubeconfig=kube-scheduler.kubeconfig
 
   kubectl config set-context default \
-    --cluster=kubernetes-the-hard-way \
+    --cluster=KTHW \
     --user=system:kube-scheduler \
     --kubeconfig=kube-scheduler.kubeconfig
 
@@ -154,7 +154,7 @@ Generate a kubeconfig file for the `admin` user:
 
 ```bash
 {
-  kubectl config set-cluster kubernetes-the-hard-way \
+  kubectl config set-cluster KTHW \
     --certificate-authority=ca.crt \
     --embed-certs=true \
     --server=https://127.0.0.1:6443 \
@@ -167,7 +167,7 @@ Generate a kubeconfig file for the `admin` user:
     --kubeconfig=admin.kubeconfig
 
   kubectl config set-context default \
-    --cluster=kubernetes-the-hard-way \
+    --cluster=KTHW \
     --user=admin \
     --kubeconfig=admin.kubeconfig
 
@@ -188,13 +188,13 @@ Copy the `kubelet` and `kube-proxy` kubeconfig files to the `node-0` and `node-1
 
 ```bash
 for host in node-0 node-1; do
-  ssh root@${host} "mkdir -p /var/lib/{kube-proxy,kubelet}"
-
+  ssh cowboy@${host} "sudo mkdir -p /var/lib/{kube-proxy,kubelet}"
+  ssh cowboy@${host} "sudo chown cowboy /var/lib/{kube-proxy,kubelet}"
   scp kube-proxy.kubeconfig \
-    root@${host}:/var/lib/kube-proxy/kubeconfig \
+    cowboy@${host}:/var/lib/kube-proxy/kubeconfig \
 
   scp ${host}.kubeconfig \
-    root@${host}:/var/lib/kubelet/kubeconfig
+    cowboy@${host}:/var/lib/kubelet/kubeconfig
 done
 ```
 
@@ -204,7 +204,7 @@ Copy the `kube-controller-manager` and `kube-scheduler` kubeconfig files to the 
 scp admin.kubeconfig \
   kube-controller-manager.kubeconfig \
   kube-scheduler.kubeconfig \
-  root@server:~/
+  cowboy@server:~/
 ```
 
 Next: [Generating the Data Encryption Config and Key](06-data-encryption-keys.md)

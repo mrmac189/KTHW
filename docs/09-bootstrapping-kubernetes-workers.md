@@ -12,13 +12,13 @@ Copy the Kubernetes binaries and systemd unit files to each worker instance:
 for HOST in node-0 node-1; do
   SUBNET=$(grep ${HOST} machines.txt | cut -d " " -f 4)
   sed "s|SUBNET|$SUBNET|g" \
-    configs/10-bridge.conf > 10-bridge.conf
+    configs/10-bridge.conf | sudo tee 10-bridge.conf
 
   sed "s|SUBNET|$SUBNET|g" \
-    configs/kubelet-config.yaml > kubelet-config.yaml
+    configs/kubelet-config.yaml | sudo tee kubelet-config.yaml
 
   scp 10-bridge.conf kubelet-config.yaml \
-  root@${HOST}:~/
+  cowboy@${HOST}:~/
 done
 ```
 
@@ -33,7 +33,7 @@ for HOST in node-0 node-1; do
     units/containerd.service \
     units/kubelet.service \
     units/kube-proxy.service \
-    root@${HOST}:~/
+    cowboy@${HOST}:~/
 done
 ```
 
@@ -41,14 +41,14 @@ done
 for HOST in node-0 node-1; do
   scp \
     downloads/cni-plugins/* \
-    root@${HOST}:~/cni-plugins/
+    cowboy@${HOST}:~/cni-plugins/
 done
 ```
 
 The commands in the next section must be run on each worker instance: `node-0`, `node-1`. Login to the worker instance using the `ssh` command. Example:
 
 ```bash
-ssh root@node-0
+ssh cowboy@node-0
 ```
 
 ## Provisioning a Kubernetes Worker Node
@@ -57,8 +57,12 @@ Install the OS dependencies:
 
 ```bash
 {
-  apt-get update
-  apt-get -y install socat conntrack ipset kmod
+sudo emerge --sync
+sudo emerge --ask \
+  net-misc/socat \
+  net-firewall/conntrack-tools \
+  net-firewall/ipset \
+  sys-apps/kmod
 }
 ```
 
@@ -91,7 +95,8 @@ mkdir -p \
   /var/lib/kubelet \
   /var/lib/kube-proxy \
   /var/lib/kubernetes \
-  /var/run/kubernetes
+  /var/run/kubernetes \
+  /etc/sysctl.d
 ```
 
 Install the worker binaries:
@@ -193,7 +198,7 @@ Run the following commands from the `jumpbox` machine.
 List the registered Kubernetes nodes:
 
 ```bash
-ssh root@server \
+ssh cowboy@server \
   "kubectl get nodes \
   --kubeconfig admin.kubeconfig"
 ```

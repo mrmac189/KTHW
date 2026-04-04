@@ -1,7 +1,7 @@
 # Kubernetes a bit Harder Way
 The original tutorial walks you through setting up [Kubernetes the hard way](https://github.com/kelseyhightower/kubernetes-the-hard-way).  
 
-This repo is my personal journey through KTHW, where I wanted some extra spice by using Gentoo as the main distro throughout the guide, thus the "a bit harder" way. Work in progress.
+This repo is my personal journey through KTHW, where I wanted some extra spice by using Gentoo as the main distro throughout the guide, thus the "a bit harder" way. 
 
 
 ## Cluster Details
@@ -22,15 +22,15 @@ This tutorial requires four AMD64 based virtual or physical machines connected t
 - [x] [Setting up the Jumpbox](docs/02-jumpbox.md)
 - [x] [Provisioning Compute Resources](docs/03-compute-resources.md)
 - [x] [Provisioning the CA and Generating TLS Certificates](docs/04-certificate-authority.md)
-- [ ] [Generating Kubernetes Configuration Files for Authentication](docs/05-kubernetes-configuration-files.md)
-- [ ] [Generating the Data Encryption Config and Key](docs/06-data-encryption-keys.md)
-- [ ] [Bootstrapping the etcd Cluster](docs/07-bootstrapping-etcd.md)
-- [ ] [Bootstrapping the Kubernetes Control Plane](docs/08-bootstrapping-kubernetes-controllers.md)
-- [ ] [Bootstrapping the Kubernetes Worker Nodes](docs/09-bootstrapping-kubernetes-workers.md)
-- [ ] [Configuring kubectl for Remote Access](docs/10-configuring-kubectl.md)
-- [ ] [Provisioning Pod Network Routes](docs/11-pod-network-routes.md)
-- [ ] [Smoke Test](docs/12-smoke-test.md)
-- [ ] [Cleaning Up](docs/13-cleanup.md)
+- [x] [Generating Kubernetes Configuration Files for Authentication](docs/05-kubernetes-configuration-files.md)
+- [x] [Generating the Data Encryption Config and Key](docs/06-data-encryption-keys.md)
+- [x] [Bootstrapping the etcd Cluster](docs/07-bootstrapping-etcd.md)
+- [x] [Bootstrapping the Kubernetes Control Plane](docs/08-bootstrapping-kubernetes-controllers.md)
+- [x] [Bootstrapping the Kubernetes Worker Nodes](docs/09-bootstrapping-kubernetes-workers.md)
+- [x] [Configuring kubectl for Remote Access](docs/10-configuring-kubectl.md)
+- [x] [Provisioning Pod Network Routes](docs/11-pod-network-routes.md)
+- [x] [Smoke Test](docs/12-smoke-test.md)
+- [x] [Cleaning Up](docs/13-cleanup.md)
 
 ## Copyright
 

@@ -4,7 +4,7 @@ terraform {
   required_providers {
     libvirt = {
       source  = "dmacvicar/libvirt"
-      version = ">= 0.9.4"
+      version = ">= 0.9.5"
     }
   }
 }
@@ -125,7 +125,7 @@ resource "libvirt_cloudinit_disk" "seed" {
     hostname: ${each.key}
     fqdn: ${each.key}.kthw.local
     manage_etc_hosts: true
-    ssh_pwauth: false
+    ssh_pwauth: true
 
     users:
       - name: cowboy
@@ -173,16 +173,16 @@ resource "libvirt_domain" "vm" {
   running     = true
 
   features = {
-  	acpi = true
-	}
+    acpi = true
+  }
 
   os = {
     type         = "hvm"
     type_arch    = "x86_64"
     type_machine = "q35"
 
-    firmware        = "efi"
-    loader          = var.ovmf_code
+    firmware = "efi"
+    loader   = var.ovmf_code
 
     nv_ram = {
       nv_ram   = "/var/lib/libvirt/qemu/nvram/${each.key}.fd"
@@ -190,10 +190,10 @@ resource "libvirt_domain" "vm" {
     }
 
     boot_devices = [
-        {
-          dev = "hd"
-        }
-      ]
+      {
+        dev = "hd"
+      }
+    ]
   }
 
   devices = {
@@ -244,10 +244,10 @@ resource "libvirt_domain" "vm" {
           }
         }
 
-	wait_for_ip = {
-  		timeout = 300
-  		source  = "lease"
-	}
+        wait_for_ip = {
+          timeout = 300
+          source  = "lease"
+        }
       }
     ]
 

@@ -1,6 +1,6 @@
 # Bootstrapping the Kubernetes Control Plane
 
-In this lab you will bootstrap the Kubernetes control plane. The following components will be installed on the `server` machine: Kubernetes API Server, Scheduler, and Controller Manager.
+In this lab we will bootstrap the Kubernetes control plane. The following components will be installed on the `server` machine: Kubernetes API Server, Scheduler, and Controller Manager.
 
 ## Prerequisites
 
@@ -17,13 +17,13 @@ scp \
   units/kube-scheduler.service \
   configs/kube-scheduler.yaml \
   configs/kube-apiserver-to-kubelet.yaml \
-  root@server:~/
+  cowboy@server:~/
 ```
 
 The commands in this lab must be run on the `server` machine. Login to the `server` machine using the `ssh` command. Example:
 
 ```bash
-ssh root@server
+ssh cowboy@server
 ```
 
 ## Provision the Kubernetes Control Plane
@@ -118,7 +118,7 @@ mv kube-scheduler.service /etc/systemd/system/
 
 > Allow up to 10 seconds for the Kubernetes API Server to fully initialize.
 
-You can check if any of the control plane components are active using the `systemctl` command. For example, to check if the `kube-apiserver` fully initialized, and active, run the following command:
+We can check if any of the control plane components are active using the `systemctl` command. For example, to check if the `kube-apiserver` fully initialized, and active, run the following command:
 
 ```bash
 systemctl is-active kube-apiserver
@@ -128,9 +128,10 @@ For a more detailed status check, which includes additional process information 
 
 ```bash
 systemctl status kube-apiserver
+systemctl status kube-apiserver --no-pager
 ```
 
-If you run into any errors, or want to view the logs for any of the control plane components, use the `journalctl` command. For example, to view the logs for the `kube-apiserver` run the following command:
+If we run into any errors, or want to view the logs for any of the control plane components, use the `journalctl` command. For example, to view the logs for the `kube-apiserver` run the following command:
 
 ```bash
 journalctl -u kube-apiserver
@@ -158,7 +159,7 @@ In this section you will configure RBAC permissions to allow the Kubernetes API 
 The commands in this section will affect the entire cluster and only need to be run on the `server` machine.
 
 ```bash
-ssh root@server
+ssh cowboy@server
 ```
 
 Create the `system:kube-apiserver-to-kubelet` [ClusterRole](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#role-and-clusterrole) with permissions to access the Kubelet API and perform most common tasks associated with managing pods:
@@ -175,8 +176,8 @@ At this point the Kubernetes control plane is up and running. Run the following 
 Make a HTTP request for the Kubernetes version info:
 
 ```bash
-curl --cacert ca.crt \
-  https://server.kubernetes.local:6443/version
+curl --cacert certs/ca.crt \
+  https://server.kthw.local:6443/version
 ```
 
 ```text

@@ -220,7 +220,8 @@ Copy the `hosts` file to each machine and append the contents to `/etc/hosts`:
 while read IP FQDN HOST SUBNET; do
   scp hosts cowboy@${HOST}:~/
   ssh -n \
-    cowboy@${HOST} "cat hosts | sudo tee -a /etc/hosts"
+    cowboy@${HOST} "cat hosts | sudo tee -a /etc/hosts";
+    cowboy@${HOST} "cat hosts | sudo tee -a /etc/cloud/templates/hosts.gentoo.tmpl"
 done < machines.txt
 ```
 

@@ -1,6 +1,6 @@
 # Configuring kubectl for Remote Access
 
-In this lab you will generate a kubeconfig file for the `kubectl` command line utility based on the `admin` user credentials.
+In this lab we will generate a kubeconfig file for the `kubectl` command line utility based on the `admin` user credentials.
 
 > Run the commands in this lab from the `jumpbox` machine.
 
@@ -12,7 +12,7 @@ You should be able to ping `server.kubernetes.local` based on the `/etc/hosts` D
 
 ```bash
 curl --cacert ca.crt \
-  https://server.kubernetes.local:6443/version
+  https://server.kthw.local:6443/version
 ```
 
 ```text
